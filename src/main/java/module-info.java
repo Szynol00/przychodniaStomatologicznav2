@@ -5,4 +5,6 @@ module com.example.przychodniastomatologicznav2 {
 
     opens com.example.przychodniastomatologicznav2 to javafx.fxml;
     exports com.example.przychodniastomatologicznav2;
+    exports com.example.przychodniastomatologicznav2.controllers;
+    opens com.example.przychodniastomatologicznav2.controllers to javafx.fxml;
 }

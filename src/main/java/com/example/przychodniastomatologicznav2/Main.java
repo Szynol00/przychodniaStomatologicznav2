@@ -4,16 +4,20 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import java.util.Objects;
 
 public class Main extends Application {
+
     double x, y = 0;
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main.fxml")));
+
+        StackPane stackPane = new StackPane();
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
         Scene scene = new Scene((root));
 //        stage.initStyle(StageStyle.UNDECORATED);
 
