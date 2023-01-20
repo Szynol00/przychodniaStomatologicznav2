@@ -20,10 +20,10 @@ public class MainController implements Initializable {
     private BorderPane borderPane1;
 
     @FXML
-    private TabPane TabCennik, tabLekarze, tabPacjenci, tabWizyty, tabCennik, tabStatystyki;
+    private TabPane TabCennik, tabLekarze, tabPacjenci, tabWizyty, tabCennik;
 
     @FXML
-    private Button btnCennik, btnLekarze, btnPacjenci, btnStatusLewy, btnStatystyki, btnWizyty;;
+    private Button btnCennik, btnLekarze, btnPacjenci, btnStatusLewy, btnWizyty;;
 
     @FXML
     private Label labelStatus;
@@ -57,15 +57,7 @@ public class MainController implements Initializable {
         });
         btnCennik.setOnAction(event -> {
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("cennik.fxml"));
-                borderPane1.setCenter(root);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        btnStatystyki.setOnAction(event -> {
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("statystyki.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("uslugi.fxml"));
                 borderPane1.setCenter(root);
             } catch (IOException e) {
                 e.printStackTrace();

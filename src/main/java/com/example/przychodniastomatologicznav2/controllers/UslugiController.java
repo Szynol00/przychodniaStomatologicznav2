@@ -1,0 +1,165 @@
+package com.example.przychodniastomatologicznav2.controllers;
+
+import com.example.przychodniastomatologicznav2.dBConnect.DBConnect;
+import com.example.przychodniastomatologicznav2.models.Pacjenci;
+import com.example.przychodniastomatologicznav2.models.Uslugi;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+public class UslugiController implements Initializable {
+
+    @FXML
+    private TableColumn<Uslugi, String> cenaUslugiCol;
+
+    @FXML
+    private TextField cenaUslugiTxt;
+
+    @FXML
+    private TableColumn<Uslugi, Integer> idUslugiCol;
+
+    @FXML
+    private TextField idUslugiTxt;
+
+    @FXML
+    private TableColumn<Uslugi, String> nazwaUslugiCol;
+
+    @FXML
+    private TextField nazwaUslugiTxt;
+
+    @FXML
+    private TableColumn<Uslugi, String> specUslugiCol;
+
+    @FXML
+    private TextField specUslugiTxt;
+    @FXML
+    private TableView<Uslugi> tableViewUslugi;
+
+    int index = -1;
+    Connection connection = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+
+
+    ObservableList<Uslugi> listU;
+
+    @FXML
+    void Add(ActionEvent event) {
+        Connection connection = DBConnect.ConnectDb();
+        String sql = "INSERT INTO uslugi (nazwa_uslugi, cena, specjalizacja) VALUES (?,?,?)";
+        try {
+            if(nazwaUslugiTxt.getText().equals("") || cenaUslugiTxt.getText().equals("") || specUslugiTxt.getText().equals("")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Wypełnij wszystkie pola");
+                alert.showAndWait();
+            }else {
+                pst = connection.prepareStatement(sql);
+                pst.setString(1, nazwaUslugiTxt.getText());
+                pst.setString(2, cenaUslugiTxt.getText());
+                pst.setString(3, specUslugiTxt.getText());
+                pst.execute();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Dodano usługę");
+                alert.showAndWait();
+                UpdateTable();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void Delete(ActionEvent event) {
+        Connection connection = DBConnect.ConnectDb();
+        String sql = "DELETE FROM uslugi WHERE id_uslugi = ?";
+        try {
+            pst = connection.prepareStatement(sql);
+            pst.setString(1, idUslugiTxt.getText());
+            pst.execute();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Usunięto usługę");
+            alert.showAndWait();
+            UpdateTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void Edit(ActionEvent event) {
+        Connection connection = DBConnect.ConnectDb();
+        String sql = "UPDATE uslugi SET nazwa_uslugi=?, cena=?, specjalizacja=? WHERE id_uslugi=?";
+        try {
+            if(nazwaUslugiTxt.getText().equals("") || cenaUslugiTxt.getText().equals("") || specUslugiTxt.getText().equals("")){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText(null);
+                alert.setContentText("Wypełnij wszystkie pola");
+                alert.showAndWait();
+            }else {
+                pst = connection.prepareStatement(sql);
+                pst.setString(1, nazwaUslugiTxt.getText());
+                pst.setString(2, cenaUslugiTxt.getText());
+                pst.setString(3, specUslugiTxt.getText());
+                pst.setString(4, idUslugiTxt.getText());
+                pst.execute();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Zaktualizowano usługę");
+                alert.showAndWait();
+                UpdateTable();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    void getSelected(MouseEvent event) {
+        index = tableViewUslugi.getSelectionModel().getSelectedIndex();
+        if (index <= -1) {
+            return;
+        }
+        idUslugiTxt.setText(idUslugiCol.getCellData(index).toString());
+        nazwaUslugiTxt.setText(nazwaUslugiCol.getCellData(index));
+        cenaUslugiTxt.setText(cenaUslugiCol.getCellData(index));
+        specUslugiTxt.setText(specUslugiCol.getCellData(index));
+    }
+
+
+
+    public void UpdateTable() throws SQLException {
+        idUslugiCol.setCellValueFactory(new PropertyValueFactory<Uslugi, Integer>("id_uslugi"));
+        nazwaUslugiCol.setCellValueFactory(new PropertyValueFactory<Uslugi, String>("nazwa_uslugi"));
+        cenaUslugiCol.setCellValueFactory(new PropertyValueFactory<Uslugi, String>("cena"));
+        specUslugiCol.setCellValueFactory(new PropertyValueFactory<Uslugi, String>("specjalizacja"));
+
+        listU = DBConnect.getDataUslugi();
+        tableViewUslugi.setItems(listU);
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        try {
+            UpdateTable();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+}
