@@ -1,10 +1,11 @@
 package com.example.przychodniastomatologicznav2.models;
 
 
-public class Wizyty {
-    int id_wizyty, id_lekarza, id_pacjenta, id_uslugi;
-    String data_wizyty;
+import java.util.Date;
 
+public class Wizyty {
+    private int id_wizyty, id_lekarza, id_pacjenta, id_uslugi;
+    private String data_wizyty;
     public Wizyty(int id_wizyty, int id_lekarza, int id_pacjenta, int id_uslugi, String data_wizyty) {
         this.id_wizyty = id_wizyty;
         this.id_lekarza = id_lekarza;
@@ -12,6 +13,7 @@ public class Wizyty {
         this.id_uslugi = id_uslugi;
         this.data_wizyty = data_wizyty;
     }
+
 
     public int getId_wizyty() {
         return id_wizyty;
@@ -49,7 +51,10 @@ public class Wizyty {
         return data_wizyty;
     }
 
-    public void setData_wizyty(String data_wizyty) {
+    public void setData_wizyty(String  data_wizyty) {
         this.data_wizyty = data_wizyty;
     }
-};
+}
+
+
+

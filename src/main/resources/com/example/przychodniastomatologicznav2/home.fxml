@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,7 +15,10 @@
          <top>
             <HBox prefHeight="62.0" prefWidth="809.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="87.0" prefWidth="160.0" />
+                  <VBox prefHeight="25.0" prefWidth="212.0">
+                     <children>
+                        <TextField fx:id="searchInfo" prefHeight="25.0" prefWidth="347.0" promptText="Wyszukaj" />
+                     </children></VBox>
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -22,14 +26,16 @@
             </HBox>
          </top>
          <center>
-            <TableView fx:id="tableViewWizyty" prefHeight="442.0" prefWidth="809.0" styleClass="tab" stylesheets="@../../../CSS/style.css" BorderPane.alignment="CENTER">
+            <TableView fx:id="tableViewHome" prefHeight="442.0" prefWidth="809.0" styleClass="tab" stylesheets="@../../../CSS/style.css" BorderPane.alignment="CENTER">
                <columns>
-                  <TableColumn fx:id="idWizytyCol" prefWidth="110.0" text="Imię pacjenta" />
-                  <TableColumn fx:id="idLekarzaCol" minWidth="0.0" prefWidth="115.0" text="Nazwisko pacjenta" />
-                  <TableColumn fx:id="dataWizytyCol" minWidth="0.0" prefWidth="104.0" text="Data Wizyty" />
-                  <TableColumn fx:id="idPacjentaCol" prefWidth="168.0" text="Nazwisko lekarza" />
-                  <TableColumn fx:id="idUslugiCol" minWidth="0.0" prefWidth="174.0" text="Usługa" />
-                  <TableColumn fx:id="idUslugiCol1" minWidth="0.0" prefWidth="174.0" text="Cena usługi" />
+                  <TableColumn fx:id="idPacjentaCol" prefWidth="110.0" text="Id pacjenta" />
+                  <TableColumn fx:id="imiePacjentaCol" prefWidth="110.0" text="Imię pacjenta" />
+                  <TableColumn fx:id="nazwiskoPacjentaCol" minWidth="0.0" prefWidth="114.0" text="Nazwisko pacjenta" />
+                  <TableColumn fx:id="dataWizytyCol" minWidth="0.0" prefWidth="78.0" text="Data Wizyty" />
+                  <TableColumn fx:id="imieLekarzaCol" prefWidth="168.0" text="Imię lekarza" />
+                  <TableColumn fx:id="nazwiskoLekarzaCol" prefWidth="120.0" text="Nazwisko lekarza" />
+                  <TableColumn fx:id="cenaUslugiCol" minWidth="0.0" prefWidth="82.0" text="Cena usługi" />
+                  <TableColumn fx:id="nazwaUslugiCol" minWidth="0.0" prefWidth="174.0" text="Usługa" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

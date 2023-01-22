@@ -1,14 +1,13 @@
 package com.example.przychodniastomatologicznav2.dBConnect;
 
-import com.example.przychodniastomatologicznav2.models.Lekarze;
-import com.example.przychodniastomatologicznav2.models.Pacjenci;
-import com.example.przychodniastomatologicznav2.models.Uslugi;
-import com.example.przychodniastomatologicznav2.models.Wizyty;
+import com.example.przychodniastomatologicznav2.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import java.util.Date;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 
 public class DBConnect {
 
@@ -65,9 +64,8 @@ public class DBConnect {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list2.add(new Lekarze(Integer.parseInt(rs.getString("id_lekarza")),
-                        rs.getString("imie"),
-                        rs.getString("nazwisko"),
-                        rs.getString("specjalizacja"),
+                        rs.getString("imie_lekarza"),
+                        rs.getString("nazwisko_lekarza"),
                         rs.getString("numer_telefonu")));
             }
         } catch (Exception e) {
@@ -87,8 +85,7 @@ public class DBConnect {
             while (rs.next()) {
                 list3.add(new Uslugi(Integer.parseInt(rs.getString("id_uslugi")),
                         rs.getString("nazwa_uslugi"),
-                        rs.getString("cena"),
-                        rs.getString("specjalizacja")));
+                        rs.getString("cena")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,6 +113,36 @@ public class DBConnect {
         }finally {
             connection.close();
             return list4;
+        }
+    }
+
+    public static ObservableList<Home> getDataHome() throws SQLException {
+        Connection connection = ConnectDb();
+        ObservableList<Home> list5 = FXCollections.observableArrayList();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT pacjenci.id_pacjenta, pacjenci.imie, pacjenci.nazwisko, wizyty.data_wizyty, " +
+                    "lekarze.imie_lekarza, lekarze.nazwisko_lekarza, uslugi.cena, uslugi.nazwa_uslugi\n" +
+                    "FROM wizyty\n" +
+                    "JOIN pacjenci ON wizyty.id_pacjenta = pacjenci.id_pacjenta\n" +
+                    "JOIN lekarze ON wizyty.id_lekarza = lekarze.id_lekarza\n" +
+                    "JOIN uslugi ON wizyty.id_uslugi = uslugi.id_uslugi;\n" +
+                    "\n");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list5.add(new Home(Integer.parseInt(rs.getString("id_pacjenta")),
+                        rs.getString("imie"),
+                        rs.getString("nazwisko"),
+                        rs.getString("data_wizyty"),
+                        rs.getString("imie_lekarza"),
+                        rs.getString("nazwisko_lekarza"),
+                        rs.getString("cena"),
+                rs.getString("nazwa_uslugi")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            connection.close();
+            return list5;
         }
     }
 

@@ -1,8 +1,11 @@
 package com.example.przychodniastomatologicznav2.controllers;
 
 import com.example.przychodniastomatologicznav2.dBConnect.DBConnect;
+import com.example.przychodniastomatologicznav2.models.Lekarze;
 import com.example.przychodniastomatologicznav2.models.Pacjenci;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -49,6 +52,9 @@ public class PacjenciController implements Initializable {
     @FXML
     private TextField numerTelPacTxt, nazwiskoPacTxt, miastoPacTxt, kodPoczPacTxt, imiePacTxt, adresPacTxt, idPacTxt, peselPacTxt;
 
+    @FXML
+    private TextField searchInfo;
+
 
     int index = -1;
     Connection connection = null;
@@ -56,6 +62,7 @@ public class PacjenciController implements Initializable {
     PreparedStatement pst = null;
 
     ObservableList<Pacjenci> listP;
+    ObservableList<Pacjenci> dataList;
 
     public void Add() {
         connection = DBConnect.ConnectDb();
@@ -80,6 +87,7 @@ public class PacjenciController implements Initializable {
                 pst.setString(7, numerTelPacTxt.getText());
                 pst.execute();
                 UpdateTable();
+                SearchInfo();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Dodano pacjenta");
                 alert.setHeaderText(null);
@@ -123,6 +131,7 @@ public class PacjenciController implements Initializable {
             alert.setContentText("Usunięto pacjenta");
             alert.showAndWait();
             UpdateTable();
+            SearchInfo();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -151,6 +160,7 @@ public class PacjenciController implements Initializable {
             alert.setContentText("Zaktualizowano dane pacjenta");
             alert.showAndWait();
             UpdateTable();
+            SearchInfo();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -170,11 +180,47 @@ public class PacjenciController implements Initializable {
         tableViewPacjenci.setItems(listP);
     }
 
+    public void SearchInfo() throws SQLException {
+        connection = DBConnect.ConnectDb();
+        dataList = DBConnect.getDataPacjenci();
+        tableViewPacjenci.setItems(dataList);
+        FilteredList<Pacjenci> filteredData = new FilteredList<>(dataList, b -> true);
+        searchInfo.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(pacjenci -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (pacjenci.getImie().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (pacjenci.getNazwisko().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (pacjenci.getPesel().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (pacjenci.getAdres_zamieszkania().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (pacjenci.getKod_pocztowy().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (pacjenci.getMiasto().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (pacjenci.getNumer_telefonu().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Pacjenci> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableViewPacjenci.comparatorProperty());
+        tableViewPacjenci.setItems(sortedData);
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
             UpdateTable();
+            SearchInfo();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

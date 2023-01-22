@@ -16,19 +16,19 @@
          <top>
             <HBox prefHeight="91.0" prefWidth="809.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="104.0" prefWidth="111.0">
+                  <VBox prefHeight="87.0" prefWidth="147.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#AddDoctor" prefHeight="33.0" prefWidth="103.0" style="-fx-background-color: #0fdba8;" text="Dodaj lekarza">
+                        <Button mnemonicParsing="false" onAction="#AddDoctor" prefHeight="33.0" prefWidth="170.0" style="-fx-background-color: #0fdba8;" text="Dodaj lekarza">
                            <VBox.margin>
                               <Insets top="4.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#EditDoctor" prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: #fcba03;" text="Edytuj lekarza">
+                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#EditDoctor" prefHeight="25.0" prefWidth="170.0" style="-fx-background-color: #fcba03;" text="Edytuj lekarza">
                            <VBox.margin>
                               <Insets top="4.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#DeleteDoctor" prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: #f54269;" text="Usuń lekarza">
+                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#DeleteDoctor" prefHeight="25.0" prefWidth="170.0" style="-fx-background-color: #f54269;" text="Usuń lekarza">
                            <VBox.margin>
                               <Insets top="4.0" />
                            </VBox.margin>
@@ -38,22 +38,24 @@
                   <TextField fx:id="idLekTxt" prefHeight="25.0" prefWidth="53.0" promptText="id">
                      <HBox.margin>
                         <Insets top="4.0" />
-                     </HBox.margin></TextField>
+                     </HBox.margin>
+                  </TextField>
                   <TextField fx:id="imieLekTxt" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="126.0" promptText="imie">
                      <HBox.margin>
                         <Insets top="4.0" />
-                     </HBox.margin></TextField>
+                     </HBox.margin>
+                  </TextField>
                   <TextField fx:id="nazwiskoLekTxt" layoutX="367.0" layoutY="30.0" prefHeight="25.0" prefWidth="132.0" promptText="nazwisko">
                      <HBox.margin>
                         <Insets top="4.0" />
                      </HBox.margin>
                   </TextField>
-                  <TextField fx:id="specLekTxt" layoutX="509.0" layoutY="30.0" prefHeight="25.0" prefWidth="175.0" promptText="specjalność">
+                  <TextField fx:id="numerTelLekTxt" layoutX="560.0" layoutY="30.0" prefHeight="25.0" prefWidth="132.0" promptText="numer telefonu">
                      <HBox.margin>
                         <Insets top="4.0" />
                      </HBox.margin>
                   </TextField>
-                  <TextField fx:id="numerTelLekTxt" layoutX="560.0" layoutY="30.0" prefHeight="25.0" prefWidth="132.0" promptText="numer telefonu">
+                  <TextField fx:id="searchInfo" promptText="Wyszukaj">
                      <HBox.margin>
                         <Insets top="4.0" />
                      </HBox.margin>
@@ -70,7 +72,6 @@
                   <TableColumn fx:id="idLekarzaCol" prefWidth="110.0" text="Id lekarza" />
                   <TableColumn fx:id="imieLekarzaCol" prefWidth="110.0" text="Imię" />
                   <TableColumn fx:id="nazwiskoLekarzaCol" minWidth="0.0" prefWidth="115.0" text="Nazwisko" />
-                  <TableColumn fx:id="specialnoscLakarzaCol" minWidth="0.0" prefWidth="174.0" text="Specjalność" />
                   <TableColumn fx:id="nrTelefonuCol" minWidth="0.0" prefWidth="250.0" text="Numer telefonu" />
                </columns>
                <columnResizePolicy>

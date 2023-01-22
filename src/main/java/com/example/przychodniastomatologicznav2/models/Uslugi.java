@@ -2,14 +2,13 @@ package com.example.przychodniastomatologicznav2.models;
 
 public class Uslugi {
 
-  int id_uslugi;
-  String nazwa_uslugi, cena, specjalizacja;
+  private int id_uslugi;
+  private String nazwa_uslugi, cena;
 
-  public Uslugi(int id_uslugi, String nazwa_uslugi, String cena, String specjalizacja) {
+  public Uslugi(int id_uslugi, String nazwa_uslugi, String cena) {
     this.id_uslugi = id_uslugi;
     this.nazwa_uslugi = nazwa_uslugi;
     this.cena = cena;
-    this.specjalizacja = specjalizacja;
   }
 
   public int getId_uslugi() {
@@ -36,11 +35,4 @@ public class Uslugi {
     this.cena = cena;
   }
 
-  public String getSpecjalizacja() {
-    return specjalizacja;
-  }
-
-  public void setSpecjalizacja(String specjalizacja) {
-    this.specjalizacja = specjalizacja;
-  }
 }

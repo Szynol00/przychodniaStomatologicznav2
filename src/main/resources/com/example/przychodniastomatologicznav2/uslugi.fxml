@@ -16,19 +16,19 @@
          <top>
             <HBox prefHeight="66.0" prefWidth="809.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <VBox prefHeight="26.0" prefWidth="123.0">
+                  <VBox prefHeight="87.0" prefWidth="180.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#Add" prefHeight="25.0" prefWidth="116.0" style="-fx-background-color: #0fdba8;" text="Dodaj usługę">
+                        <Button mnemonicParsing="false" onAction="#Add" prefHeight="0.0" prefWidth="170.0" style="-fx-background-color: #0fdba8;" text="Dodaj usługę">
                            <VBox.margin>
                               <Insets top="4.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#Edit" prefHeight="25.0" prefWidth="116.0" style="-fx-background-color: #fcba03;" text="Dodaj usługę">
+                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#Edit" prefHeight="0.0" prefWidth="170.0" style="-fx-background-color: #fcba03;" text="Edytuj usługę">
                            <VBox.margin>
                               <Insets top="4.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="btnStatusLewy11" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onAction="#Delete" prefHeight="26.0" prefWidth="115.0" style="-fx-background-color: #f54269;" text="Dodaj usługę">
+                        <Button fx:id="btnStatusLewy11" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onAction="#Delete" prefHeight="0.0" prefWidth="170.0" style="-fx-background-color: #f54269;" text="Usuń usługę">
                            <VBox.margin>
                               <Insets top="4.0" />
                            </VBox.margin>
@@ -44,12 +44,12 @@
                         <Insets top="4.0" />
                      </HBox.margin>
                   </TextField>
-                  <TextField fx:id="cenaUslugiTxt" layoutX="345.0" layoutY="30.0" prefHeight="30.0" prefWidth="182.0" promptText="cena zabiegu">
+                  <TextField fx:id="cenaUslugiTxt" layoutX="345.0" layoutY="30.0" prefHeight="30.0" prefWidth="129.0" promptText="cena zabiegu">
                      <HBox.margin>
                         <Insets top="4.0" />
                      </HBox.margin>
                   </TextField>
-                  <TextField fx:id="specUslugiTxt" layoutX="549.0" layoutY="30.0" prefHeight="31.0" prefWidth="184.0" promptText="specjalnosc">
+                  <TextField fx:id="searchInfo" prefHeight="30.0" prefWidth="147.0" promptText="Wyszukaj">
                      <HBox.margin>
                         <Insets top="4.0" />
                      </HBox.margin>
@@ -66,7 +66,6 @@
                   <TableColumn fx:id="idUslugiCol" prefWidth="110.0" text="id Usługi" />
                   <TableColumn fx:id="nazwaUslugiCol" minWidth="0.0" prefWidth="115.0" text="Nazwa Usługi" />
                   <TableColumn fx:id="cenaUslugiCol" prefWidth="150.0" text="Cena" />
-                  <TableColumn fx:id="specUslugiCol" prefWidth="150.0" text="Specjalność" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

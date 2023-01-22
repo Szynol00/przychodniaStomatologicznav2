@@ -5,21 +5,22 @@ import com.example.przychodniastomatologicznav2.dBConnect.DBConnect;
 import com.example.przychodniastomatologicznav2.models.Uslugi;
 import com.example.przychodniastomatologicznav2.models.Wizyty;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.util.converter.DateStringConverter;
 
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class WizytyController implements Initializable {
@@ -57,19 +58,32 @@ public class WizytyController implements Initializable {
     @FXML
     private TableView<Wizyty> tableViewWizyty;
 
+    @FXML
+    private TextField searchInfo;
+
+
     int index = -1;
     Connection connection = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
 
 
+
+
     ObservableList<Wizyty> listW;
+    ObservableList<Wizyty> dataList;
+
+
+
 
 
     @FXML
     void Add(ActionEvent event) throws SQLException {
+
         Connection connection = DBConnect.ConnectDb();
         String sql = "INSERT INTO wizyty (id_pacjenta, id_lekarza, id_uslugi, data_wizyty) VALUES (?,?,?,?)";
+
+
 
         int count = 0;
         String checkPacjent = "SELECT COUNT(*) FROM pacjenci WHERE id_pacjenta = ?";
@@ -169,9 +183,57 @@ public class WizytyController implements Initializable {
     }
 
     @FXML
-    void Edit(ActionEvent event) {
+    void Edit(ActionEvent event) throws SQLException {
         Connection connection = DBConnect.ConnectDb();
         String sql = "UPDATE wizyty SET id_pacjenta = ?, id_lekarza = ?, id_uslugi = ?, data_wizyty = ? WHERE id_wizyty = ?";
+
+
+        int count = 0;
+        String checkPacjent = "SELECT COUNT(*) FROM pacjenci WHERE id_pacjenta = ?";
+        pst = connection.prepareStatement(checkPacjent);
+        pst.setString(1, idPacjentaTxt.getText());
+        rs = pst.executeQuery();
+        while(rs.next()){
+            count = rs.getInt(1);
+        }
+        if(count == 0){
+            Alert alert2 = new Alert(Alert.AlertType.ERROR);
+            alert2.setHeaderText(null);
+            alert2.setContentText("Nie ma pacjenta o podanym ID! Upewnij się czy podany pacjent istnieje w bazie danych.");
+            alert2.showAndWait();
+            return;
+        }
+        count = 0;
+        String checkLekarz= "SELECT COUNT(*) FROM lekarze WHERE id_lekarza = ?";
+        pst = connection.prepareStatement(checkLekarz);
+        pst.setString(1, idLekarzaTxt.getText());
+        rs = pst.executeQuery();
+        while(rs.next()){
+            count = rs.getInt(1);
+        }
+        if(count == 0){
+            Alert alert2 = new Alert(Alert.AlertType.ERROR);
+            alert2.setHeaderText(null);
+            alert2.setContentText("Nie ma lekarza o podanym ID! Upewnij się czy podany pacjent istnieje w bazie danych.");
+            alert2.showAndWait();
+            return;
+        }
+
+        count = 0;
+        String checkUslugi= "SELECT COUNT(*) FROM uslugi WHERE id_uslugi = ?";
+        pst = connection.prepareStatement(checkUslugi);
+        pst.setString(1, idUslugiTxt.getText());
+        rs = pst.executeQuery();
+        while(rs.next()){
+            count = rs.getInt(1);
+        }
+        if(count == 0){
+            Alert alert2 = new Alert(Alert.AlertType.ERROR);
+            alert2.setHeaderText(null);
+            alert2.setContentText("Nie ma uslugi o podanym ID! Upewnij się czy podana usluga istnieje w bazie danych.");
+            alert2.showAndWait();
+            return;
+        }
         try {
             pst = connection.prepareStatement(sql);
             pst.setString(1, idPacjentaTxt.getText());
@@ -215,10 +277,33 @@ public class WizytyController implements Initializable {
         tableViewWizyty.setItems(listW);
     }
 
+    public void SearchInfo() throws SQLException {
+        connection = DBConnect.ConnectDb();
+        dataList = DBConnect.getDataWizyty();
+        tableViewWizyty.setItems(dataList);
+        FilteredList<Wizyty> filteredData = new FilteredList<>(dataList, b -> true);
+        searchInfo.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(wizyty -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+               if (wizyty.getData_wizyty().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                }
+                return false;
+            });
+        });
+        SortedList<Wizyty> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableViewWizyty.comparatorProperty());
+        tableViewWizyty.setItems(sortedData);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             UpdateTable();
+            SearchInfo();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

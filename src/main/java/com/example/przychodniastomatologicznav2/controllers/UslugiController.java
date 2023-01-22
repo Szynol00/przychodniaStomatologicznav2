@@ -4,6 +4,8 @@ import com.example.przychodniastomatologicznav2.dBConnect.DBConnect;
 import com.example.przychodniastomatologicznav2.models.Pacjenci;
 import com.example.przychodniastomatologicznav2.models.Uslugi;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -37,14 +39,11 @@ public class UslugiController implements Initializable {
 
     @FXML
     private TextField nazwaUslugiTxt;
-
-    @FXML
-    private TableColumn<Uslugi, String> specUslugiCol;
-
-    @FXML
-    private TextField specUslugiTxt;
     @FXML
     private TableView<Uslugi> tableViewUslugi;
+
+    @FXML
+    private TextField searchInfo;
 
     int index = -1;
     Connection connection = null;
@@ -53,13 +52,15 @@ public class UslugiController implements Initializable {
 
 
     ObservableList<Uslugi> listU;
+    ObservableList<Uslugi> dataList;
+
 
     @FXML
     void Add(ActionEvent event) {
         Connection connection = DBConnect.ConnectDb();
-        String sql = "INSERT INTO uslugi (nazwa_uslugi, cena, specjalizacja) VALUES (?,?,?)";
+        String sql = "INSERT INTO uslugi (nazwa_uslugi, cena) VALUES (?,?)";
         try {
-            if(nazwaUslugiTxt.getText().equals("") || cenaUslugiTxt.getText().equals("") || specUslugiTxt.getText().equals("")){
+            if(nazwaUslugiTxt.getText().equals("") || cenaUslugiTxt.getText().equals("")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
                 alert.setContentText("Wypełnij wszystkie pola");
@@ -68,13 +69,13 @@ public class UslugiController implements Initializable {
                 pst = connection.prepareStatement(sql);
                 pst.setString(1, nazwaUslugiTxt.getText());
                 pst.setString(2, cenaUslugiTxt.getText());
-                pst.setString(3, specUslugiTxt.getText());
                 pst.execute();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(null);
                 alert.setContentText("Dodano usługę");
                 alert.showAndWait();
                 UpdateTable();
+                SearchInfo();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,6 +95,7 @@ public class UslugiController implements Initializable {
             alert.setContentText("Usunięto usługę");
             alert.showAndWait();
             UpdateTable();
+            SearchInfo();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -102,9 +104,9 @@ public class UslugiController implements Initializable {
     @FXML
     public void Edit(ActionEvent event) {
         Connection connection = DBConnect.ConnectDb();
-        String sql = "UPDATE uslugi SET nazwa_uslugi=?, cena=?, specjalizacja=? WHERE id_uslugi=?";
+        String sql = "UPDATE uslugi SET nazwa_uslugi=?, cena=? WHERE id_uslugi=?";
         try {
-            if(nazwaUslugiTxt.getText().equals("") || cenaUslugiTxt.getText().equals("") || specUslugiTxt.getText().equals("")){
+            if(nazwaUslugiTxt.getText().equals("") || cenaUslugiTxt.getText().equals("")){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
                 alert.setContentText("Wypełnij wszystkie pola");
@@ -113,14 +115,14 @@ public class UslugiController implements Initializable {
                 pst = connection.prepareStatement(sql);
                 pst.setString(1, nazwaUslugiTxt.getText());
                 pst.setString(2, cenaUslugiTxt.getText());
-                pst.setString(3, specUslugiTxt.getText());
-                pst.setString(4, idUslugiTxt.getText());
+                pst.setString(3, idUslugiTxt.getText());
                 pst.execute();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(null);
                 alert.setContentText("Zaktualizowano usługę");
                 alert.showAndWait();
                 UpdateTable();
+                SearchInfo();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,7 +139,6 @@ public class UslugiController implements Initializable {
         idUslugiTxt.setText(idUslugiCol.getCellData(index).toString());
         nazwaUslugiTxt.setText(nazwaUslugiCol.getCellData(index));
         cenaUslugiTxt.setText(cenaUslugiCol.getCellData(index));
-        specUslugiTxt.setText(specUslugiCol.getCellData(index));
     }
 
 
@@ -146,16 +147,42 @@ public class UslugiController implements Initializable {
         idUslugiCol.setCellValueFactory(new PropertyValueFactory<Uslugi, Integer>("id_uslugi"));
         nazwaUslugiCol.setCellValueFactory(new PropertyValueFactory<Uslugi, String>("nazwa_uslugi"));
         cenaUslugiCol.setCellValueFactory(new PropertyValueFactory<Uslugi, String>("cena"));
-        specUslugiCol.setCellValueFactory(new PropertyValueFactory<Uslugi, String>("specjalizacja"));
 
         listU = DBConnect.getDataUslugi();
         tableViewUslugi.setItems(listU);
+    }
+
+    public void SearchInfo() throws SQLException {
+        connection = DBConnect.ConnectDb();
+        dataList = DBConnect.getDataUslugi();
+        tableViewUslugi.setItems(dataList);
+        FilteredList<Uslugi> filteredData = new FilteredList<>(dataList, b -> true);
+        searchInfo.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(uslugi -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                if (uslugi.getNazwa_uslugi().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (uslugi.getCena().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true;
+                } else if (String.valueOf(uslugi.getId_uslugi()).indexOf(lowerCaseFilter) != -1)
+                    return true;
+                else
+                    return false;
+            });
+        });
+        SortedList<Uslugi> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(tableViewUslugi.comparatorProperty());
+        tableViewUslugi.setItems(sortedData);
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         try {
             UpdateTable();
+            SearchInfo();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
