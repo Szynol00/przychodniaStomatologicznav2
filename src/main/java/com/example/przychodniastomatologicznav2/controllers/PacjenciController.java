@@ -87,6 +87,10 @@ public class PacjenciController implements Initializable {
                 alert.showAndWait();
             }
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Nie można dodać pacjenta! Upewnij się, że podałeś poprawne dane");
+            alert.showAndWait();
             e.printStackTrace();
         }
     }

@@ -22,6 +22,10 @@ public class DBConnect {
             return connection;
 
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Nie można połączyć się z bazą danych!");
+            alert.showAndWait();
             e.printStackTrace();
             return null;
         }

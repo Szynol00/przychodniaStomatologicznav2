@@ -25,9 +25,6 @@ public class LekarzeController implements Initializable {
     private TableColumn<Lekarze, String> imieLekarzaCol;
 
     @FXML
-    private Label labelStatus;
-
-    @FXML
     private TableColumn<Lekarze, String> nazwiskoLekarzaCol;
 
     @FXML
@@ -73,6 +70,10 @@ public class LekarzeController implements Initializable {
             }
 
               } catch (SQLException e) {
+              Alert alert = new Alert(Alert.AlertType.ERROR);
+              alert.setHeaderText(null);
+              alert.setContentText("Błąd podczas dodawania lekarza");
+              alert.showAndWait();
                 e.printStackTrace();
           }
              }
@@ -107,6 +108,10 @@ public class LekarzeController implements Initializable {
             alert.showAndWait();
             UpdateTable();
         } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Nie można dodać lekarza z pustymi polami");
+            alert.showAndWait();
             e.printStackTrace();
         }
     }

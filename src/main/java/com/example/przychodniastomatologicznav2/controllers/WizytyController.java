@@ -65,16 +65,66 @@ public class WizytyController implements Initializable {
 
     ObservableList<Wizyty> listW;
 
+
     @FXML
-    void Add(ActionEvent event) {
+    void Add(ActionEvent event) throws SQLException {
         Connection connection = DBConnect.ConnectDb();
         String sql = "INSERT INTO wizyty (id_pacjenta, id_lekarza, id_uslugi, data_wizyty) VALUES (?,?,?,?)";
+
+        int count = 0;
+        String checkPacjent = "SELECT COUNT(*) FROM pacjenci WHERE id_pacjenta = ?";
+        pst = connection.prepareStatement(checkPacjent);
+        pst.setString(1, idPacjentaTxt.getText());
+        rs = pst.executeQuery();
+        while(rs.next()){
+            count = rs.getInt(1);
+        }
+        if(count == 0){
+            Alert alert2 = new Alert(Alert.AlertType.ERROR);
+            alert2.setHeaderText(null);
+            alert2.setContentText("Nie ma pacjenta o podanym ID! Upewnij się czy podany pacjent istnieje w bazie danych.");
+            alert2.showAndWait();
+            return;
+        }
+        count = 0;
+        String checkLekarz= "SELECT COUNT(*) FROM lekarze WHERE id_lekarza = ?";
+        pst = connection.prepareStatement(checkLekarz);
+        pst.setString(1, idLekarzaTxt.getText());
+        rs = pst.executeQuery();
+        while(rs.next()){
+            count = rs.getInt(1);
+        }
+        if(count == 0){
+            Alert alert2 = new Alert(Alert.AlertType.ERROR);
+            alert2.setHeaderText(null);
+            alert2.setContentText("Nie ma lekarza o podanym ID! Upewnij się czy podany pacjent istnieje w bazie danych.");
+            alert2.showAndWait();
+            return;
+        }
+
+        count = 0;
+        String checkUslugi= "SELECT COUNT(*) FROM uslugi WHERE id_uslugi = ?";
+        pst = connection.prepareStatement(checkUslugi);
+        pst.setString(1, idUslugiTxt.getText());
+        rs = pst.executeQuery();
+        while(rs.next()){
+            count = rs.getInt(1);
+        }
+        if(count == 0){
+            Alert alert2 = new Alert(Alert.AlertType.ERROR);
+            alert2.setHeaderText(null);
+            alert2.setContentText("Nie ma uslugi o podanym ID! Upewnij się czy podana usluga istnieje w bazie danych.");
+            alert2.showAndWait();
+            return;
+        }
+
         try {
             if(idPacjentaTxt.getText().equals("") || idLekarzaTxt.getText().equals("") || idUslugiTxt.getText().equals("") || dataWizytytxt.getText().equals("")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText(null);
                 alert.setContentText("Wypełnij wszystkie pola");
                 alert.showAndWait();
+
             }else{
                 pst = connection.prepareStatement(sql);
                 pst.setString(1, idPacjentaTxt.getText());
@@ -91,6 +141,10 @@ public class WizytyController implements Initializable {
             }
 
         } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Nie udało się dodać wizyty!");
+            alert.showAndWait();
             e.printStackTrace();
         }
     }

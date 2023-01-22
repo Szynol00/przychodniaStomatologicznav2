@@ -23,7 +23,7 @@ public class MainController implements Initializable {
     private TabPane TabCennik, tabLekarze, tabPacjenci, tabWizyty, tabCennik;
 
     @FXML
-    private Button btnCennik, btnLekarze, btnPacjenci, btnStatusLewy, btnWizyty;;
+    private Button btnCennik, btnLekarze, btnPacjenci, btnStatusLewy, btnWizyty, btnHome;
 
     @FXML
     private Label labelStatus;
@@ -31,6 +31,14 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnHome.setOnAction(event -> {
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("home.fxml"));
+                borderPane1.setCenter(root);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         btnWizyty.setOnAction(event -> {
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("wizyty.fxml"));
@@ -64,7 +72,7 @@ public class MainController implements Initializable {
             }
         });
 
-        btnWizyty.fire();
+        btnHome.fire();
     }
 @FXML
     private void handleClicks(ActionEvent event) {

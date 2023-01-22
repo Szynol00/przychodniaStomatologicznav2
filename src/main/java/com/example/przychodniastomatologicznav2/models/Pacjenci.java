@@ -5,7 +5,7 @@ public class Pacjenci {
     int id_pacjenta;
     String imie, nazwisko, pesel, numer_telefonu, adres_zamieszkania, kod_pocztowy, miasto;
 
-    public Pacjenci(int id, String imie, String nazwisko, String pesel, String telefon, String kodPocztowy, String miasto, String adres) {
+    public Pacjenci(int id, String imie, String nazwisko, String pesel, String adres, String kodPocztowy, String miasto, String telefon) {
         this.id_pacjenta = id;
         this.imie = imie;
         this.nazwisko = nazwisko;
