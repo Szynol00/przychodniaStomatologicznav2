@@ -42,7 +42,7 @@ Upewnij się, że wszystkie zależności są poprawnie skonfigurowane przed uruc
 
 ## Interfejs użytkownika
 Główny widok aplikacji wyświetla najważniejsze informacje z wszystkich tabel. 
-![image](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/cf0acfc3-5565-4441-85fb-9855de3bc9f1)
+![image](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/5e2185bf-95ce-48f8-bd24-d8b96d56facd)
 
 Widok wizyty zawierajace pola tekstowe id pacjenta, id lekarza, id usługi oraz datę wizyty.
 ![image](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/24098c4e-6029-4dab-abee-6ffab93ddfd4)
@@ -67,13 +67,13 @@ We wszystkich widokach oprócz home możliwe jest dodanie nowych danych do bazy.
 
 ### Edycja danych
 Aby edytować dane, kliknij lewym przyciskiem myszy na wiersz, który chcesz edytować. Wiersz zostanie podświetlony, a dane zostaną automatycznie załadowane do pola tekstowego nad tabelą:
-![Edycja pacjenta - Wybór wiersza](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/3a5faa7b-84a4-464b-83ad-eb88075e0bbd)
+![image](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/80a822fd-4859-4903-948b-b9551471ab9d)
 
 Zmień dane w odpowiednich polach tekstowych i kliknij przycisk „Edytuj pacjenta”:
-![Edycja pacjenta - Edycja danych](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/41970fa0-fc7c-4f20-b6b3-8157a0468848)
+![image](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/e811613f-ff66-41d1-8cd9-4700d5f13bda)
 
 Po potwierdzeniu zmian, aplikacja wyświetli komunikat o pomyślnym zaktualizowaniu danych. Kliknij OK, aby dane zaktualizowały się w tabeli:
-![Edycja pacjenta - Potwierdzenie](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/195d1041-2028-4ab2-ac11-7499d6020173)
+![image](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/cc7ddea9-6d50-4a0f-bbec-79e9fd9ddcad)
 
 ### Usuwanie danych: 
 Aby usunąć rekod, kliknij lewym przyciskiem na dany wiesz w tabeli lub wpisz dane ręcznie do pól tekstowych. Następnie nacisnij czerwony przycik Usuń pacjenta. 
@@ -85,7 +85,8 @@ Po naciśnięciu przycisku ok tabela się zaktualizuje a pacjenta, którego usun
 ### Wyszukiwanie danych:
 Do wyszukania potrzebnych informacji służy pole tekstowe „wyszukaj” do którego jest możliwość wpisania informacji jakich szukamy. 
 Uwaga: pole tekstowe może jednocześnie przeszukiwać jedną kolumnę np. po imieniu albo PESEL-u jednak próba wyszukania jednocześnie danej informacji typu: „imię i nazwisko” nie przyniesie pożądanego skutku. 
-![image](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/e26585a1-37bb-4a89-a126-19a87192e808) 
+W poniższym zrzucie ekranu aplikacja wyszukała wszystkich pacjentów w tabeli mieszkających w Łodzi. 
+![image](https://github.com/Szynol00/przychodniaStomatologicznav2/assets/104465225/e26585a1-37bb-4a89-a126-19a87192e808)
 W powyższym zrzucie ekranu aplikacja wyszukała wszystkich pacjentów w tabeli mieszkających w Łodzi. 
 
 ### Sortowanie danych:
